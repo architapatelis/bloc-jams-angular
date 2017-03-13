@@ -18,6 +18,9 @@
             // ui-view directive in global index.html will load template associated with the landing state
             .state('landing', {
                 url: '/',
+                // Using UI router register/instantiate a controller. Therefore, don't need to set ng-controller on DOM element
+                // 'controller as' syntax to handel nested scope
+                controller: 'LandingCtrl as landing',
                 templateUrl: '/templates/landing.html'
             })
             // localhost:3000/album
@@ -29,6 +32,7 @@
             
             .state('collection', {
                 url: '/collection',
+                controller: 'CollectionCtrl as collection',
                 templateUrl: '/templates/collection.html'
         });
     }
