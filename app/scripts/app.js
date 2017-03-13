@@ -25,7 +25,12 @@
             .state('album', {
                 url: '/album',
                 templateUrl: '/templates/album.html'     
-        });   
+            })
+            
+            .state('collection', {
+                url: '/collection',
+                templateUrl: '/templates/collection.html'
+        });
     }
     
 // After we add an external module's script source, we can inject the module into the application by adding it to dependency array.
