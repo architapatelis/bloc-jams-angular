@@ -1,1 +1,36 @@
-angular.module('blocJams', []);
+// anonymous closure
+// $stateProvider: to configure the state behavior
+// $locationProvider: to configure how the application handles URL path in the browser
+(function () {
+    function config($stateProvider, $locationProvider) {
+        $locationProvider
+            .html5Mode ({
+                // to disable hashbang(!#) in URL. So we get a clean URL
+                enabled: true,
+                // so that we don't need a <base href=""> tag in html. preventing $location error
+                requireBase: false
+        });
+        
+        // $stateProvider.state(stateName, stateConfig)
+        // e.g. stateName is landing and stateConfig is an object that defines specific properties of the state
+        // localhost:3000/
+        $stateProvider
+            // ui-view directive in global index.html will load template associated with the landing state
+            .state('landing', {
+                url: '/',
+                templateUrl: '/templates/landing.html'
+            })
+            // localhost:3000/album
+            // ui-view directive in the global file will load album template
+            .state('album', {
+                url: '/album',
+                templateUrl: '/templates/album.html'     
+        });   
+    }
+    
+// After we add an external module's script source, we can inject the module into the application by adding it to dependency array.
+angular
+    .module('blocJams', ['ui.router'])
+    .config(config);
+    
+})();

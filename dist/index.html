@@ -23,9 +23,16 @@
         <div class="links-container">
             <a href="collection.html" class="navbar-link">collection</a>
         </div>
-    </nav> 
+    </nav>
+    
+    <ui-view></ui-view>
 
+    <!-- source file for AngularJS -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+    
+    <!-- UI-Router is a separate module from the Angular source script. So, add it's source. Since it's an extension of AngularJS it's src must be placed afterwards to prevent reference error. -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
+
     <script src="/scripts/app.js"></script>
 </body>
 </html>
