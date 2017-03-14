@@ -37,9 +37,18 @@
             ]
         };
         
-        //define getAlbum() method
+        //define getAlbum() method for AlbumCtrl
         Fixtures.getAlbum = function () {
             return albumPicasso;
+        };
+        
+        // method for CollectionCtrl
+        Fixtures.getCollection = function (numberOfAlbums) {
+            var albums = [];
+            for(var i = 0; i < numberOfAlbums; i++) {
+                albums.push(albumPicasso)
+            }
+            return albums;
         };
 
         // return album object

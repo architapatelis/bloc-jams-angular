@@ -1,6 +1,6 @@
 <section class="album-covers container clearfix">
     <!-- ng-repeat will repeat template for each of the 12 album/items stored in the collection.album property (located in the controller) -->
-    <div class="collection-album-container column fourth" ng-repeat="album in collection.albums">
+    <div class="collection-album-container column fourth" ng-repeat="album in collection.albums track by $index">
         <img src="{{ album.albumArtUrl }}">
         <div class="collection-album-info caption">
             <p>
