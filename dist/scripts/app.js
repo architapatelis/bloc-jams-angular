@@ -27,6 +27,7 @@
             // ui-view directive in the global file will load album template
             .state('album', {
                 url: '/album',
+                controller: 'AlbumCtrl as album',
                 templateUrl: '/templates/album.html'     
             })
             
