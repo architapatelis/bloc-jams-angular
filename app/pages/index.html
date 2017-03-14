@@ -32,9 +32,13 @@
     
     <!-- UI-Router is a separate module from the Angular source script. So, add it's source. Since it's an extension of AngularJS it's src must be placed afterwards to prevent reference error. -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
+    
+    <!-- Since the SongPlayer service will play music, we need to add the Buzz library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/buzz/1.1.10/buzz.min.js"></script>
 
     <script src="/scripts/app.js"></script>
     <script src="/scripts/services/Fixtures.js"></script>
+    <script src="/scripts/services/SongPlayer.js"></script>
     <!-- link controller file -->
     <script src="/scripts/controllers/LandingCtrl.js"></script>
     <script src="/scripts/controllers/CollectionCtrl.js"></script><script src="/scripts/controllers/CollectionCtrl.js"></script>
