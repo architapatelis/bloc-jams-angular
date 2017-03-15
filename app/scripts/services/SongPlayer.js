@@ -16,6 +16,8 @@
         * @desc - private attribute, store current ablum to access index of song in the songs array
         * @type {Object}
         */
+        
+        
         var currentAlbum = Fixtures.getAlbum();
                 
         
@@ -35,8 +37,8 @@
         var setSong = function (song) {
             // Stop the currently playing song, if there is one.
             if(currentBuzzObject) {
-                currentBuzzObject.stop();
-                SongPlayer.currentSong.playing = null;
+                // no 'song' argument because setSong already has a song argument that stopSong will use.
+                stopSong();
             }
             
             // create new Buzz object using song's Url
@@ -106,6 +108,20 @@
         
         
         /**
+        * @function stopSong - private function
+        * @desc stop currently playing song
+        * @param {Object} song
+        */
+        var stopSong = function (song) {
+            song = song || SongPlayer.currentSong;
+            //stop the currently playing song
+            currentBuzzObject.stop();
+            // set the value of the currently playing song to null
+            song.playing = null;
+        };
+        
+        
+        /**
         * @function SongPlayer.pause - public method
         * @desc pause method used by controller to pause a song. A song must already be playing, when user clicks pause this method is triggered
         * @param {Object} song
@@ -115,7 +131,29 @@
             currentBuzzObject.pause();
             song.playing = false;
         };
+
         
+        /**
+        * @function next - public function
+        * @ desc use the next button to go to the next song in the list
+        */
+        SongPlayer.next = function() {
+            // get index of currently playing song
+            var currentSongIndex = getSongIndex(SongPlayer.currentSong);
+            currentSongIndex++;
+        
+            // what should happen when the user is on the first song and clicks the previous button
+            if (currentSongIndex === currentAlbum.songs.length) {
+                stopSong(song);
+            } //If the currentSongIndex is greater than zero
+            else {
+                //move to the previous song and automatically play it
+                var song = currentAlbum.songs[currentSongIndex];
+                setSong(song);
+                playSong(song);
+            }
+        };
+
         
         /**
         * @function previous - public function
@@ -128,11 +166,7 @@
         
             // what should happen when the user is on the first song and clicks the previous button
             if (currentSongIndex < 0) {
-                //stop the currently playing song
-                currentBuzzObject.stop();
-                // set the value of the currently playing song to the first song
-                SongPlayer.currentSong.playing = null;
-            
+                stopSong(song);
             } //If the currentSongIndex is greater than zero
             else {
                 //move to the previous song and automatically play it
