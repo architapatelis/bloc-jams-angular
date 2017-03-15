@@ -45,7 +45,6 @@
             
             // Set the newly chosen song object as the currentSong
             currentSong = song;
-
         };
         
         
@@ -65,7 +64,6 @@
         * @desc play method used by controller to play a song
         * @param {Object} song
         */
-    
         SongPlayer.play = function(song) {
             // if the currently playing song is not equal to the song the user clicks on
             // null !== song clicked
@@ -81,6 +79,7 @@
                 }
             }
         };
+        
         
         /**
         * @function SongPlayer.pause - public method
