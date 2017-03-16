@@ -36,6 +36,7 @@
             //Think of it as a function that executes when the directive is instantiated in the view. This is where all logic related to DOM manipulation will go.
             // follow this strict order of arguments
             // using 'scope.' define attributes and methods that the directive(seekBar) can use in it's view(seek_bar.html)
+            //The second argument is the jqLite-wrapped element that the directive matches.
             link: function(scope, element, attributes) {
                 
                 /**
