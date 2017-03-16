@@ -3,7 +3,7 @@
 
 (function () {
     //Inject the Fixtures service into the SongPlayer service. Then use the getAlbum method to store the album information, this will allow us to get index of the song object within the songs array
-    function SongPlayer (Fixtures) {
+    function SongPlayer ($rootScope, Fixtures) {
         /**
         * @desc The service returns this object, making its properties and methods public to the rest of the application
         * @type {Object}
@@ -47,10 +47,20 @@
                 preload: true
             });
             
+            // use Buzz bind() method to add an event listener to the Buzz sound object – in this case, we listen for a timeupdate event.
+            // Add the $apply to the SongPlayer.setSong method so that it starts "applying" the time update once we know which song to play
+            currentBuzzObject.bind('timeupdate', function() {
+                // add a  $rootScope.$apply event in the SongPlayer service. This creates a custom event that other parts of the Angular application can "listen" to.
+                $rootScope.$apply(function() {
+                    //use Buzz's  getTime() method to get the current time (in seconds) of the song
+                    SongPlayer.currentTime = currentBuzzObject.getTime();
+                });
+            });
+            
             // Set the newly chosen song object as the currentSong
             SongPlayer.currentSong = song;
         };
-        
+                
         
         /**
         * @function playSong
@@ -82,7 +92,30 @@
         // when no song is playing. 
         //make it a public attribute so that player bar can access the information of the currently playing song
         SongPlayer.currentSong = null;
+        
+        
+        /**
+        * @function currentTime
+        * @desc current playback time (in seconds) of currently playing song
+        * @type {Number}
+        * @public 
+        */
+        SongPlayer.currentTime = null;
 
+
+        /**
+        * @function setCurrentTime
+        * @desc Set current time (in seconds) of currently playing song. used in on-change attribute in <seek-bar>
+        * @param {Number} time
+        * @public function
+        */
+        SongPlayer.setCurrentTime = function (time) {
+            if(currentBuzzObject) {
+                // uses Buzz library's setTime method to set the playback position in seconds
+                currentBuzzObject.setTime(time);
+            }
+        };
+        
         
         /**
         * @function SongPlayer.play 
@@ -193,6 +226,6 @@
     
     angular
         .module('blocJams')
-        .factory('SongPlayer', ['Fixtures', SongPlayer]);
+        .factory('SongPlayer', ['$rootScope', 'Fixtures', SongPlayer]);
 
 }) ();

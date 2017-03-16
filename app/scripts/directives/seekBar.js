@@ -32,7 +32,11 @@
             // restricts directive to 'element' declaration style
             restrict: 'E',
             //Specifies that a new scope be created for the directive
-            scope: { },
+            // attach onChange to the directive's scope, rather than the attributes object. Scoping the attribute allows us to specify how we want to handle the value passed to the on-change
+            //The '&' binding type provides a way to execute an expression in the context of the parent scope.
+            scope: {
+                onChange: '&'
+            },
             //Think of it as a function that executes when the directive is instantiated in the view. This is where all logic related to DOM manipulation will go.
             // follow this strict order of arguments
             // using 'scope.' define attributes and methods that the directive(seekBar) can use in it's view(seek_bar.html)
@@ -63,6 +67,23 @@
                 
                 
                 /**
+                @desc monitor the value of attribute 'value' that we specified in <seek-bar>. When the observed attribute is set or changed, we execute a @callback (the second argument) that sets a new scope value 
+                */
+                attributes.$observe('value', function (newValue) {
+                    //use the seekBar directive's scope to determine the location of the seek bar thumb, and correspondingly, the playback position of the song and set a newValue.
+                    scope.value = newValue;
+                });
+                
+                
+                /**
+                @desc monitor the value of attribute 'max' that we specified in <seek-bar>
+                */
+                attributes.$observe('max', function (newValue) { 
+                    scope.max = newValue;
+                });
+                
+                
+                /**
                 * @function percentString
                 * @private
                 * @desc calculate seek bar fill ratio
@@ -84,6 +105,7 @@
                     return {width: percentString()};
                 };
                 
+                
                 /**
                 * @function thumbStyle
                 * @public
@@ -93,15 +115,18 @@
                     return {left: percentString()};
                 };
                 
+                
                 /**
                 * @function onClickSeekBar
                 * @public
                 * @desc Updates the seek bar value based on the seek bar's width and the location of the user's click on the seek bar.
-                * @param click event
+                * @param event
+                * @event click
                 */
                 scope.onClickSeekBar = function (event) {
                     var percent = calculatePercent(seekBar, event);
                     scope.value = percent * scope.max;
+                    notifyOnChange(scope.value);
                 };
                 
                 
@@ -109,6 +134,7 @@
                 * @function trackThumb 
                 * @public
                 * @desc for when a user drags the seek bar thumb
+                * @event mousemove, mouseup, mousedown
                 */
                 scope.trackThumb = function() {
                     //attach mousemove to $(document) to make sure that we can drag the thumb after mousing down, even when the mouse leaves the seek bar. Better user experience
@@ -117,7 +143,9 @@
                         var percent = calculatePercent(seekBar, event);
                         // uses $apply to constantly apply the change in value of scope.value as the user drags the seek bar thumb.
                         scope.$apply(function() {
-                        scope.value = percent * scope.max;
+                            scope.value = percent * scope.max;
+                            //pass the updated value to the onChange attribute in <seek-bar>
+                            notifyOnChange(scope.value);
                         });
                     });
 
@@ -128,6 +156,21 @@
                         $document.unbind('mouseup.thumb');
                     });
                 };
+                
+                
+                /**
+                * @function notifyOnChange
+                * @private
+                * @desc notify onChange that scope.value had changed
+                * @param {newValue} number
+                */
+                var notifyOnChange = function (newValue) {
+                    if (typeof scope.onChange === 'function') {
+                        // telling Angular to insert the local newValue variable as the  value argument we pass into the SongPlayer.setCurrentTime() function called in the view <seek-bar>
+                        scope.onChange({value: newValue});
+                    }
+                };
+                
             }
         };
     }
