@@ -10,7 +10,7 @@
         * @private
         */
         var SongPlayer = {};
-        
+
         
         /**
         * @desc - store current ablum to access index of song in the songs array
@@ -95,7 +95,6 @@
         
         
         /**
-        * @function currentTime
         * @desc current playback time (in seconds) of currently playing song
         * @type {Number}
         * @public 
@@ -113,6 +112,26 @@
             if(currentBuzzObject) {
                 // uses Buzz library's setTime method to set the playback position in seconds
                 currentBuzzObject.setTime(time);
+            }
+        };
+        
+        
+        /**
+        * @desc current volume of song
+        * @type {Number}
+        * @public
+        */
+        SongPlayer.volume = 80;
+        
+        
+        /**
+        * @function setVolume
+        * @desc set the volume of currently playing song
+        * @public
+        */
+        SongPlayer.setVolume = function (volume) {
+            if(currentBuzzObject) {
+                currentBuzzObject.setVolume(volume);
             }
         };
         
