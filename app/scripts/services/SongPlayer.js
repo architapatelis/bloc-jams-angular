@@ -7,32 +7,32 @@
         /**
         * @desc The service returns this object, making its properties and methods public to the rest of the application
         * @type {Object}
+        * @private
         */
-        // private attribute
         var SongPlayer = {};
         
         
         /**
-        * @desc - private attribute, store current ablum to access index of song in the songs array
+        * @desc - store current ablum to access index of song in the songs array
         * @type {Object}
+        * @private
         */
-        
-        
         var currentAlbum = Fixtures.getAlbum();
                 
         
         /**
         * @desc Buzz object audio file
         * @type {Object}
+        * @private
         */
-        // private attribute
         var currentBuzzObject = null;
         
         
         /**
-        * @function setSong - private function
+        * @function setSong 
         * @desc Stops currently playing song and loads new audio file as currentBuzzObject
         * @param {Object} song
+        * @private
         */
         var setSong = function (song) {
             // Stop the currently playing song, if there is one.
@@ -53,9 +53,10 @@
         
         
         /**
-        * @function playSong - private function
+        * @function playSong
         * @desc call Buzz's own play method on the newly created Buzz object
         * @param {Object} song
+        * @private
         */
         var playSong = function (song) {
             currentBuzzObject.play();
@@ -63,9 +64,10 @@
         };
         
         /**
-        * @function getSongIndex - private function
+        * @function getSongIndex
         * @desc get index of the song object from the list of songs in the currentAlbum
-        @ param {Object} song
+        * @param {Object} song
+        * @private
         */
         var getSongIndex = function(song) {
             return currentAlbum.songs.indexOf(song);
@@ -75,6 +77,7 @@
         /**
         * @desc currently playing song object from list of songs
         * @type {Object}
+        * @public
         */
         // when no song is playing. 
         //make it a public attribute so that player bar can access the information of the currently playing song
@@ -82,9 +85,10 @@
 
         
         /**
-        * @function SongPlayer.play - public method
+        * @function SongPlayer.play 
         * @desc play method used by controller to play current or new song
         * @param {Object} song
+        * @public
         */
         SongPlayer.play = function(song) {
             // assign the value of 'song' or the value of 'SongPlayer.currentSong' to the son variable
@@ -108,9 +112,10 @@
         
         
         /**
-        * @function stopSong - private function
+        * @function stopSong 
         * @desc stop currently playing song
         * @param {Object} song
+        * @private
         */
         var stopSong = function (song) {
             song = song || SongPlayer.currentSong;
@@ -122,9 +127,10 @@
         
         
         /**
-        * @function SongPlayer.pause - public method
+        * @function SongPlayer.pause 
         * @desc pause method used by controller to pause a song. A song must already be playing, when user clicks pause this method is triggered
         * @param {Object} song
+        * @public
         */
         SongPlayer.pause = function (song) {
             song = song || SongPlayer.currentSong;
@@ -134,8 +140,9 @@
 
         
         /**
-        * @function next - public function
+        * @function next
         * @ desc use the next button to go to the next song in the list
+        * @public
         */
         SongPlayer.next = function() {
             // get index of currently playing song
@@ -156,8 +163,9 @@
 
         
         /**
-        * @function previous - public function
-        * @ desc use the previous button to go to the previous song in the list
+        * @function previous 
+        * @desc use the previous button to go to the previous song in the list
+        * @public
         */
         SongPlayer.previous = function() {
             // get index of currently playing song
