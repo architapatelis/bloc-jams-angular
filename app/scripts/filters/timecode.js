@@ -6,18 +6,8 @@
 (function () {
     function timecode() {
         return function(seconds) {
-            
-            //The parseFloat() function parses a string and returns the number as a number. Note: first character in the specified string must be a number.
-            var seconds = Number.parseFloat(seconds);
-            
-            // when the view first loads, however, time appears as "NaN:NaN". "NaN" means "not a number". We need to change that to '-:--'
-            if (Number.isNaN(seconds)) {
-                return '-:--';
-            }
-            
-            var output = buzz.toTimer(seconds);
-        
-            return output;
+            // use buzz library to set a 00:00 time format
+            return buzz.toTimer(seconds);
         };
     }
     
