@@ -6,6 +6,7 @@
 (function () {
     function timecode() {
         return function(seconds) {
+            
             //The parseFloat() function parses a string and returns the number as a number. Note: first character in the specified string must be a number.
             var seconds = Number.parseFloat(seconds);
             
@@ -14,21 +15,9 @@
                 return '-:--';
             }
             
-            //Round a number downward to its nearest integer
-            var wholeSeconds = Math.floor(seconds);
-            var minutes = Math.floor(wholeSeconds / 60);
-            var remainingSeconds = wholeSeconds % 60;
-            
-            var output = minutes + ':';
-    
-            if (remainingSeconds < 10) {
-                output += '0';   
-            }
-    
-            output += remainingSeconds;
-            
+            var output = buzz.toTimer(seconds);
+        
             return output;
-            
         };
     }
     
