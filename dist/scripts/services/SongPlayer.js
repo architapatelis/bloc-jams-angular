@@ -54,6 +54,11 @@
                 $rootScope.$apply(function() {
                     //use Buzz's  getTime() method to get the current time (in seconds) of the song
                     SongPlayer.currentTime = currentBuzzObject.getTime();
+                    var duration = currentBuzzObject.getDuration();
+                    // to automatically play next song when current song ends.
+                    if(SongPlayer.currentTime === duration) {
+                        SongPlayer.next();
+                    }
                 });
             });
             
@@ -73,20 +78,6 @@
             song.playing = true;
         };
         
-        /**
-        */
-        var autoPlay = function (song) {
-            if (SongPlayer.currentTime === SongPlayer.currentSong.duration) {
-                var currentSongIndex = getSongIndex(song);
-                currentSongIndex++;
-                    if(currentSongIndex <= currentAlbum.songs.length - 2) {
-                
-                        var song = currentAlbum.songs[currentSongIndex];
-                        setSong(song);
-                        playSong(song);
-                    }
-            }
-        };
         
         /**
         * @function getSongIndex
@@ -169,7 +160,6 @@
                 // call setSong and playSong function
                 setSong(song);
                 playSong(song);
-                autoPlay(song);
             } else if (SongPlayer.currentSong === song) {
                 if(currentBuzzObject.isPaused()) {
                     playSong(song);
