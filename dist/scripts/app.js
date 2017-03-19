@@ -1,7 +1,7 @@
 // anonymous closure
 // $stateProvider: to configure the state behavior
 // $locationProvider: to configure how the application handles URL path in the browser
-(function () {
+(function() {
     function config($stateProvider, $locationProvider) {
         $locationProvider
             .html5Mode ({

@@ -1,6 +1,6 @@
 // custom directive for seek bar
 // For directives, the callback function (in this case, seekBar) is a factory function
-(function (){
+(function(){
     function seekBar($document) {
         /**
         * @function calculatePercent
@@ -8,7 +8,7 @@
         * @desc Calculates the horizontal percent along the seek bar where the event (passed in from the view as  $event) occured.
         * @param seekBar, event
         */
-        var calculatePercent = function (seekBar, event) {
+        var calculatePercent = function(seekBar, event) {
             //pageX is a jQuery-specific event value, which holds the X (or horizontal) coordinate at which the event occurred.
             // offset() of this seekBar is determine from left side of the page to the starting point of the seekbar
             var offsetX = event.pageX - seekBar.offset().left;
@@ -69,7 +69,7 @@
                 /**
                 @desc monitor the value of attribute 'value' that we specified in <seek-bar>. When the observed attribute is set or changed, we execute a @callback (the second argument) that sets a new scope value 
                 */
-                attributes.$observe('value', function (newValue) {
+                attributes.$observe('value', function(newValue) {
                     //use the seekBar directive's scope to determine the location of the seek bar thumb, and correspondingly, the playback position of the song and set a newValue.
                     scope.value = newValue;
                 });
@@ -78,7 +78,7 @@
                 /**
                 @desc monitor the value of attribute 'max' that we specified in <seek-bar>
                 */
-                attributes.$observe('max', function (newValue) { 
+                attributes.$observe('max', function(newValue) { 
                     scope.max = newValue;
                 });
                 
@@ -88,7 +88,7 @@
                 * @private
                 * @desc calculate seek bar fill ratio
                 */
-                var percentString = function () {
+                var percentString = function() {
                     var value = scope.value;
                     var max = scope.max;
                     var percent = value/max * 100;
@@ -101,7 +101,7 @@
                 * @public
                 * @desc set the amount the seek bar should be filled
                 */
-                scope.fillStyle = function () {
+                scope.fillStyle = function() {
                     return {width: percentString()};
                 };
                 
@@ -111,7 +111,7 @@
                 * @public
                 * @desc updates the position of the seek bar thumb
                 */
-                scope.thumbStyle = function () {
+                scope.thumbStyle = function() {
                     return {left: percentString()};
                 };
                 
@@ -123,7 +123,7 @@
                 * @param event
                 * @event click
                 */
-                scope.onClickSeekBar = function (event) {
+                scope.onClickSeekBar = function(event) {
                     var percent = calculatePercent(seekBar, event);
                     scope.value = percent * scope.max;
                     notifyOnChange(scope.value);
@@ -164,7 +164,7 @@
                 * @desc notify onChange that scope.value had changed
                 * @param {newValue} number
                 */
-                var notifyOnChange = function (newValue) {
+                var notifyOnChange = function(newValue) {
                     if (typeof scope.onChange === 'function') {
                         // telling Angular to insert the local newValue variable as the  value argument we pass into the SongPlayer.setCurrentTime() function called in the view <seek-bar>
                         scope.onChange({value: newValue});

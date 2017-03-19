@@ -2,7 +2,7 @@
 // use 'this' instead of $scope to initialize the $scope object
 // attach property to 'this'
 // $scope properties contain the model/data, that the view will present
-(function () {
+(function() {
     function LandingCtrl() {
         this.heroTitle = "Turn the Music Up!";
     }

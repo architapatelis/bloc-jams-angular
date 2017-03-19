@@ -1,6 +1,6 @@
 // use this factory service to pull the album data into our application 
 // This service is a "Plain Old JavaScript Object" (POJO). Components that inject this service as a dependency can access the public methods of the object – that is, the properties and methods that are returned.
-(function () {
+(function() {
     function Fixtures() {
         var Fixtures = {};
         
@@ -38,12 +38,12 @@
         };
         
         //define getAlbum() method for AlbumCtrl
-        Fixtures.getAlbum = function () {
+        Fixtures.getAlbum = function() {
             return albumPicasso;
         };
         
         // method for CollectionCtrl
-        Fixtures.getCollection = function (numberOfAlbums) {
+        Fixtures.getCollection = function(numberOfAlbums) {
             var albums = [];
             for(var i = 0; i < numberOfAlbums; i++) {
                 albums.push(albumPicasso)
@@ -61,4 +61,4 @@
         // designate the use of Factory recipe in the module
         .factory('Fixtures', Fixtures);
     
-}) ();
+})();

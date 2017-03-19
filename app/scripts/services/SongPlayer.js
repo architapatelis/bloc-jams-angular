@@ -1,9 +1,9 @@
 // Create a Factory Service (SongPlayer) for Bloc Jams
 // Note: we'll get 'song' from the Album View when a user clicks the play button. ngRepeat used in album.html will dictate which song to pass into function
 
-(function () {
+(function() {
     //Inject the Fixtures service into the SongPlayer service. Then use the getAlbum method to store the album information, this will allow us to get index of the song object within the songs array
-    function SongPlayer ($rootScope, Fixtures) {
+    function SongPlayer($rootScope, Fixtures) {
         /**
         * @desc The service returns this object, making its properties and methods public to the rest of the application
         * @type {Object}
@@ -34,7 +34,7 @@
         * @param {Object} song
         * @private
         */
-        var setSong = function (song) {
+        var setSong = function(song) {
             // Stop the currently playing song, if there is one.
             if(currentBuzzObject) {
                 // no 'song' argument because setSong already has a song argument that stopSong will use.
@@ -73,7 +73,7 @@
         * @param {Object} song
         * @private
         */
-        var playSong = function (song) {
+        var playSong = function(song) {
             currentBuzzObject.play();
             song.playing = true;
         };
@@ -107,20 +107,6 @@
         */
         SongPlayer.currentTime = null;
 
-
-        /**
-        * @function setCurrentTime
-        * @desc Set current time (in seconds) of currently playing song. used in on-change attribute in <seek-bar>
-        * @param {Number} time
-        * @public function
-        */
-        SongPlayer.setCurrentTime = function (time) {
-            if(currentBuzzObject) {
-                // uses Buzz library's setTime method to set the playback position in seconds
-                currentBuzzObject.setTime(time);
-            }
-        };
-        
         
         /**
         * @desc current volume of song
@@ -128,17 +114,34 @@
         * @public
         */
         SongPlayer.volume = 80;
+
         
         
+        
+        /**
+        * @function setCurrentTime
+        * @desc Set current time (in seconds) of currently playing song. used in on-change attribute in <seek-bar>
+        * @param {Number} time
+        * @public function
+        */
+        SongPlayer.setCurrentTime = function(time) {
+            if(currentBuzzObject) {
+                // uses Buzz library's setTime method to set the playback position in seconds
+                currentBuzzObject.setTime(time);
+            }
+        };
+        
+
         /**
         * @function setVolume
         * @desc set the volume of currently playing song
         * @public
         */
-        SongPlayer.setVolume = function (volume) {
+        SongPlayer.setVolume = function(volume) {
             if(currentBuzzObject) {
                 currentBuzzObject.setVolume(volume);
             }
+            SongPlayer.volume = volume;
         };
         
         
@@ -156,11 +159,11 @@
             // if the currently playing song is not equal to the song the user clicks on
             // null !== song clicked
             // or song playing !== song clicked
-            if (SongPlayer.currentSong !== song) {
+            if(SongPlayer.currentSong !== song) {
                 // call setSong and playSong function
                 setSong(song);
                 playSong(song);
-            } else if (SongPlayer.currentSong === song) {
+            } else if(SongPlayer.currentSong === song) {
                 if(currentBuzzObject.isPaused()) {
                     playSong(song);
                 }
@@ -174,7 +177,7 @@
         * @param {Object} song
         * @private
         */
-        var stopSong = function (song) {
+        var stopSong = function(song) {
             song = song || SongPlayer.currentSong;
             //stop the currently playing song
             currentBuzzObject.stop();
@@ -207,7 +210,7 @@
             currentSongIndex++;
         
             // what should happen when the user is on the first song and clicks the previous button
-            if (currentSongIndex === currentAlbum.songs.length) {
+            if(currentSongIndex === currentAlbum.songs.length) {
                 stopSong(song);
             } //If the currentSongIndex is greater than zero
             else {
@@ -230,7 +233,7 @@
             currentSongIndex--;
         
             // what should happen when the user is on the first song and clicks the previous button
-            if (currentSongIndex < 0) {
+            if(currentSongIndex < 0) {
                 stopSong(song);
             } //If the currentSongIndex is greater than zero
             else {
@@ -240,8 +243,31 @@
                 playSong(song);
             }
         };
+       
+        /**
+        * @desc set whether or not the song is muted. Initially it will be false.
+        */
+        SongPlayer.muted = false;
 
-        
+        /**
+        * @function mute
+        * @desc to mute a song
+        * @public
+        */
+        SongPlayer.mute = function() {
+            // if song isn't muted and user clicks on volume icon
+            if(!SongPlayer.muted) {
+                // Save the volume of the song when it was muted. So we can return back to it when unmuted. 
+                SongPlayer.volBeforeMute = SongPlayer.volume;
+				SongPlayer.muted = true;
+				SongPlayer.setVolume(0);
+            } // to unmute
+            else {
+				SongPlayer.muted = false;
+				SongPlayer.setVolume(SongPlayer.volBeforeMute);
+			} 
+		}; 
+
         return SongPlayer;
     };
     
@@ -252,4 +278,4 @@
         .module('blocJams')
         .factory('SongPlayer', ['$rootScope', 'Fixtures', SongPlayer]);
 
-}) ();
+})();
