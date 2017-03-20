@@ -245,6 +245,31 @@
         };
        
         
+        /**
+        * @desc set whether or not the song is muted. Initially it will be false.
+        */
+        SongPlayer.muted = false;
+
+        
+        /**
+        * @function mute
+        * @desc to mute a song
+        * @public
+        */
+        SongPlayer.mute = function() {
+            // if song isn't muted and user clicks on volume icon
+            if(!SongPlayer.muted) {
+                // Save the volume of the song when it was muted. So we can return back to it when unmuted. 
+                SongPlayer.volBeforeMute = SongPlayer.volume;
+				SongPlayer.muted = true;
+				SongPlayer.setVolume(0);
+            } // to unmute
+            else {
+				SongPlayer.muted = false; SongPlayer.setVolume(SongPlayer.volBeforeMute);
+			} 
+		}; 
+
+        
         return SongPlayer;
     };
     

@@ -144,6 +144,7 @@
 }
 
 .player-bar .volume .icon {
+    cursor: pointer;
     font-size: 1.1rem;
     display: inline-block;
     vertical-align: middle;
